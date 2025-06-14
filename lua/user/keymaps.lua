@@ -1,7 +1,11 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Replace doesn't overwrite the last yanked text in the register
 vim.keymap.set("x", "p", [["_dP]])
+-- Yank to system clipboard by default
+vim.keymap.set({"n", "v"}, "y", '"+y', { noremap = true, silent = true })
+vim.keymap.set("n", "yy", '"+yy', { noremap = true, silent = true })
 
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 vim.keymap.set("n", "<leader>so", ":source ~/.config/nvim/init.lua", { desc = "Source init.lua" })
