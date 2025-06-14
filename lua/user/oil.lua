@@ -26,7 +26,7 @@ function M.config()
     prompt_save_on_select_new_entry = false,
     skip_confirm_for_simple_edits = true,
     view_options = {
-      show_hidden = false,
+      show_hidden = true,
     }
   })
 end
