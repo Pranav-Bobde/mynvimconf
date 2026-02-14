@@ -94,24 +94,19 @@ function M.config()
     virtual_text = {
       severity = { min = vim.diagnostic.severity.WARN },
     },
-    -- signs = {
-    --   severity = { min = vim.diagnostic.severity.WARN },
-    -- },
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = signs.Error,
+        [vim.diagnostic.severity.WARN] = signs.Warn,
+        [vim.diagnostic.severity.INFO] = signs.Info,
+        [vim.diagnostic.severity.HINT] = signs.Hint,
+      },
+    },
     underline = {
       severity = { min = vim.diagnostic.severity.WARN },
     },
     update_in_insert = false,
   })
-
-
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, {
-      text = icon,
-      texthl = hl,
-      numhl = ""
-    })
-  end
 
   mason_lspconfig.setup_handlers({
     -- default handler for installed servers
