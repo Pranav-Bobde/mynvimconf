@@ -1,3 +1,37 @@
+gui:
+  authorColors:
+    '*': '#8CC7FF'
+  branchColorPatterns:
+    '.*': '#7CC4FF'
+  showRandomTip: false
+  commitHashLength: 8
+  theme:
+    activeBorderColor:
+      - '#439EFC'
+      - bold
+    inactiveBorderColor:
+      - '#7FBDFD'
+    optionsTextColor:
+      - '#5AA9FC'
+    selectedLineBgColor:
+      - '#0F2A44'
+    inactiveViewSelectedLineBgColor:
+      - '#12324F'
+    cherryPickedCommitBgColor:
+      - '#163A5F'
+    cherryPickedCommitFgColor:
+      - '#8CC7FF'
+    markedBaseCommitFgColor:
+      - '#8CC7FF'
+    markedBaseCommitBgColor:
+      - '#1D4A74'
+    unstagedChangesColor:
+      - '#FF8A7A'
+    defaultFgColor:
+      - '#CFE7FF'
+    searchingActiveBorderColor:
+      - '#7CC4FF'
+
 git:
   paging:
     colorArg: always
