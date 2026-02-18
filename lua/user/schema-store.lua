@@ -4,7 +4,7 @@ local M = {
 }
 
 function M.config()
-  require('lspconfig').yamlls.setup {
+  vim.lsp.config("yamlls", {
     settings = {
       yaml = {
         schemaStore = {
@@ -14,10 +14,10 @@ function M.config()
           -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
           url = "",
         },
-        schemas = require('schemastore').yaml.schemas(),
+        schemas = require("schemastore").yaml.schemas(),
       },
     },
-  }
+  })
 end
 
 return M
