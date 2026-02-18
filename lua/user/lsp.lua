@@ -10,21 +10,13 @@ local M = {
   }
 }
 
-function M.init()
-  require("mason-lspconfig").setup()
-end
-
 function M.config()
   local mason_lspconfig = require("mason-lspconfig")
 
   mason_lspconfig.setup({
-    ensure_installed = { "tsserver", "html", "cssls", "tailwindcss", "lua_ls", "graphql", "emmet_ls",
-      "prismals", "pyright" },
-
-    automatic_installation = true
+    ensure_installed = { "ts_ls", "html", "cssls", "tailwindcss", "lua_ls", "graphql", "emmet_ls", "yamlls", "prismals", "pyright" },
   })
 
-  local lsp_config = require("lspconfig")
   local cmp_nvim_lsp = require("cmp_nvim_lsp")
   local keymap = vim.keymap
 
@@ -108,45 +100,50 @@ function M.config()
     update_in_insert = false,
   })
 
-  mason_lspconfig.setup_handlers({
-    -- default handler for installed servers
-    function(server_name)
-      lsp_config[server_name].setup({
-        capabilities = capabilities
-      })
-    end,
-    ["graphql"] = function()
-      -- configure graphql language server
-      lsp_config["graphql"].setup({
-        capabilities = capabilities,
-        filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" }
-      })
-    end,
-    ["emmet_ls"] = function()
-      -- configure emmet language server
-      lsp_config["emmet_ls"].setup({
-        capabilities = capabilities,
-        filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" }
-      })
-    end,
-    ["lua_ls"] = function()
-      -- configure lua server (with special settings)
-      lsp_config["lua_ls"].setup({
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            -- make the language server recognize "vim" global
-            diagnostics = {
-              globals = { "vim" }
-            },
-            completion = {
-              callSnippet = "Replace"
-            }
-          }
-        }
-      })
-    end
+  local servers = {
+    "ts_ls",
+    "html",
+    "cssls",
+    "tailwindcss",
+    "lua_ls",
+    "graphql",
+    "emmet_ls",
+    "yamlls",
+    "prismals",
+    "pyright",
+  }
+
+  for _, server in ipairs(servers) do
+    vim.lsp.config(server, {
+      capabilities = capabilities,
+    })
+  end
+
+  vim.lsp.config("graphql", {
+    capabilities = capabilities,
+    filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
   })
+
+  vim.lsp.config("emmet_ls", {
+    capabilities = capabilities,
+    filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+  })
+
+  vim.lsp.config("lua_ls", {
+    capabilities = capabilities,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
+        },
+        completion = {
+          callSnippet = "Replace",
+        },
+      },
+    },
+  })
+
+  vim.lsp.enable(servers)
 end
 
 return M
