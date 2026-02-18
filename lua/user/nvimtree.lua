@@ -11,6 +11,11 @@ function M.config()
   vim.g.loaded_netrwPlugin = 1
 
   nvimtree.setup({
+    on_attach = function(bufnr)
+      local api = require("nvim-tree.api")
+      api.config.mappings.default_on_attach(bufnr)
+      vim.keymap.del("n", "e", { buffer = bufnr })
+    end,
     view = {
       width = 35,
       relativenumber = true,
