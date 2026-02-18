@@ -31,8 +31,11 @@ gui:
       - '#CFE7FF'
     searchingActiveBorderColor:
       - '#7CC4FF'
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --paging=never --line-numbers --side-by-side
+  pagers:
+    - colorArg: always
+      pager: delta --paging=never --line-numbers --side-by-side
+
+os:
+  editPreset: nvim
+
