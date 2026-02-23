@@ -8,6 +8,10 @@ vim.keymap.set({"n", "v"}, "y", '"+y', { noremap = true, silent = true })
 vim.keymap.set("n", "yy", '"+yy', { noremap = true, silent = true })
 
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.api.nvim_create_user_command("E", function(opts)
+  local target = opts.args ~= "" and (" " .. opts.args) or ""
+  vim.cmd("Oil" .. target)
+end, { nargs = "?", complete = "dir", desc = "Open Oil explorer" })
 vim.keymap.set("n", "<leader>so", ":source ~/.config/nvim/init.lua", { desc = "Source init.lua" })
 
 -- Function to maximize the current buffer
