@@ -26,6 +26,15 @@ local M = {
       mode = { "n", "t" },
       desc = "Toggle opencode",
     },
+    {
+      "<leader>oc",
+      function()
+        return require("opencode").operator("@this ")
+      end,
+      mode = "x",
+      expr = true,
+      desc = "Send selection to opencode",
+    },
   },
 }
 
@@ -36,14 +45,6 @@ function M.config()
     },
   }
   vim.o.autoread = true
-
-  vim.keymap.set({ "n", "x" }, "go", function()
-    return require("opencode").operator("@this ")
-  end, { desc = "Add range to opencode", expr = true })
-
-  vim.keymap.set("n", "goo", function()
-    return require("opencode").operator("@this ") .. "_"
-  end, { desc = "Add line to opencode", expr = true })
 
   local opencode_group = vim.api.nvim_create_augroup("opencode_terminal_keys", { clear = true })
   vim.api.nvim_create_autocmd("FileType", {
