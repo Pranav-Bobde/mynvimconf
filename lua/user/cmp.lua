@@ -51,7 +51,7 @@ function M.config()
       ["<Tab>"] = cmp.mapping.select_next_item(),   -- next suggestion
       ["<C-k>"] = cmp.mapping.scroll_docs(-4),
       ["<C-j>"] = cmp.mapping.scroll_docs(4),
-      ["<C-Space>i"] = cmp.mapping.complete(), -- show completion suggestions
+      ["<C-Space>"] = cmp.mapping.complete(),  -- show completion suggestions
       ["<C-e>"] = cmp.mapping.abort(),         -- close completion window
       ["<CR>"] = cmp.mapping.confirm({ select = false }),
     }),
