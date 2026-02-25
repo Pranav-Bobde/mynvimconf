@@ -111,3 +111,25 @@ vim.api.nvim_create_autocmd("CursorHold", {
 })
 
 vim.keymap.set("n", "<leader>l", ":lua vim.cmd('e'..vim.lsp.get_log_path())", { noremap = true, silent = true })
+
+vim.g.session_start_cwd = vim.g.session_start_cwd or vim.loop.cwd()
+
+vim.keymap.set("n", "<leader>tt", function()
+  vim.cmd("botright 14new")
+  vim.fn.termopen(vim.o.shell, { cwd = vim.g.session_start_cwd })
+  vim.cmd("startinsert")
+end, { desc = "Open terminal (start cwd)", noremap = true, silent = true })
+
+local term_tmux_nav = {
+  h = "Left",
+  j = "Down",
+  k = "Up",
+  l = "Right",
+}
+
+for key, direction in pairs(term_tmux_nav) do
+  vim.keymap.set("t", "<M-" .. key .. ">", "<C-\\><C-n><cmd>TmuxNavigate" .. direction .. "<CR>", {
+    noremap = true,
+    silent = true,
+  })
+end
