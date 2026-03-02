@@ -8,6 +8,8 @@ local opts = {
       ensure_installed = { 'bash', 'c', 'html', 'css', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'python', 'typescript', 'javascript', 'tsx' },
       -- Autoinstall languages that are not installed
       auto_install = true,
+      -- Avoid parser installs during git commit editor sessions.
+      ignore_install = { 'gitcommit' },
       highlight = {
         enable = true,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
