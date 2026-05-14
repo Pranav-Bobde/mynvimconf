@@ -14,7 +14,7 @@ function M.config()
   local mason_lspconfig = require("mason-lspconfig")
 
   mason_lspconfig.setup({
-    ensure_installed = { "ts_ls", "html", "cssls", "tailwindcss", "lua_ls", "graphql", "emmet_ls", "yamlls", "prismals", "pyright" },
+    ensure_installed = { "ts_ls", "html", "cssls", "tailwindcss", "lua_ls", "graphql", "emmet_ls", "yamlls", "jsonls", "prismals", "pyright" },
   })
 
   local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -109,6 +109,7 @@ function M.config()
     "graphql",
     "emmet_ls",
     "yamlls",
+    "jsonls",
     "prismals",
     "pyright",
   }
