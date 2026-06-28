@@ -1,6 +1,9 @@
 local M = {
   "yuratomo/w3m.vim",
-  event = "VeryLazy"
+  event = "VeryLazy",
+  cond = function()
+    return vim.fn.executable("w3m") == 1
+  end,
 }
 
 return M
