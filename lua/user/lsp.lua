@@ -14,7 +14,10 @@ function M.config()
   local mason_lspconfig = require("mason-lspconfig")
 
   mason_lspconfig.setup({
-    ensure_installed = { "ts_ls", "html", "cssls", "tailwindcss", "lua_ls", "graphql", "emmet_ls", "yamlls", "jsonls", "prismals", "pyright" },
+    ensure_installed = { "vtsls", "html", "cssls", "tailwindcss", "lua_ls", "graphql", "emmet_ls", "yamlls", "jsonls", "prismals", "pyright" },
+    -- ts_ls is still installed from before the vtsls switch; keep it from
+    -- auto-enabling alongside vtsls (duplicate diagnostics/completions)
+    automatic_enable = { exclude = { "ts_ls" } },
   })
 
   local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -101,7 +104,7 @@ function M.config()
   })
 
   local servers = {
-    "ts_ls",
+    "vtsls",
     "html",
     "cssls",
     "tailwindcss",
@@ -119,6 +122,15 @@ function M.config()
       capabilities = capabilities,
     })
   end
+
+  vim.lsp.config("vtsls", {
+    capabilities = capabilities,
+    settings = {
+      vtsls = {
+        autoUseWorkspaceTsdk = true,
+      },
+    },
+  })
 
   vim.lsp.config("graphql", {
     capabilities = capabilities,
