@@ -26,7 +26,6 @@ function M.config()
   vim.api.nvim_set_hl(0, 'MasonHighlightBlockBoldSecondary', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'MasonNormal', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'MasonNormalFloat', { bg = 'none' })
-  vim.api.nvim_set_hl(0, 'MasonHighlightBlockBoldSecondary', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'MasonError', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'MasonHeading', { bg = 'none' })
 end

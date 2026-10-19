@@ -12,7 +12,6 @@ vim.api.nvim_create_user_command("E", function(opts)
   local target = opts.args ~= "" and (" " .. opts.args) or ""
   vim.cmd("Oil" .. target)
 end, { nargs = "?", complete = "dir", desc = "Open Oil explorer" })
-vim.keymap.set("n", "<leader>so", ":source ~/.config/nvim/init.lua", { desc = "Source init.lua" })
 
 -- Function to maximize the current buffer
 function _G.toggle_maximize_buffer()
@@ -34,9 +33,6 @@ vim.api.nvim_set_keymap('n', '<Space>ff', ':lua toggle_maximize_buffer()<CR>', {
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
--- vim.keymap.set("n", "<leader>d", function()
--- 	vim.diagnostic.enable(true, nil)
--- end, { desc = "Enable diagnostic" })
 
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set("n", "<C-w>,", ":vertical resize -10<CR>", { noremap = true, silent = true })
@@ -62,14 +58,6 @@ vim.keymap.set({ "n", "x" }, "j", "gj", { noremap = true, silent = true })
 vim.keymap.set({ "n", "x" }, "k", "gk", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>w", ":lua vim.wo.wrap = not vim.wo.wrap<CR>", { noremap = true, silent = true })
 
--- Move lines up
--- vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
--- vim.keymap.set("n", "<A-k>", ":m -2<CR>", { noremap = true, silent = true })
-
--- Move lines up
--- vim.keymap.set("n", "<A-j>", ":m +1<CR>", { noremap = true, silent = true })
--- vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-
 vim.keymap.set("n", "<C-_>", "10<C-w>>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-=>", "10<C-w><", { noremap = true, silent = true })
 
@@ -78,7 +66,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = "custom_buffer",
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank({ timeout = 200 })
+    vim.hl.on_yank({ timeout = 200 })
   end,
 })
 
@@ -110,13 +98,13 @@ vim.api.nvim_create_autocmd("CursorHold", {
   end,
 })
 
-vim.keymap.set("n", "<leader>l", ":lua vim.cmd('e'..vim.lsp.get_log_path())", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>l", ":lua vim.cmd('e'..vim.lsp.log.get_filename())", { noremap = true, silent = true })
 
-vim.g.session_start_cwd = vim.g.session_start_cwd or vim.loop.cwd()
+vim.g.session_start_cwd = vim.g.session_start_cwd or vim.uv.cwd()
 
 vim.keymap.set("n", "<leader>tt", function()
   vim.cmd("botright 14new")
-  vim.fn.termopen(vim.o.shell, { cwd = vim.g.session_start_cwd })
+  vim.fn.jobstart(vim.o.shell, { cwd = vim.g.session_start_cwd, term = true })
   vim.cmd("startinsert")
 end, { desc = "Open terminal (start cwd)", noremap = true, silent = true })
 

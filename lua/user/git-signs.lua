@@ -13,7 +13,6 @@ function M.config()
       topdelete = { text = "‾" },
       changedelete = { text = "~" },
     },
-    current_line_blame = false,
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
 
@@ -29,7 +28,7 @@ function M.config()
           return "]c"
         end
         vim.schedule(function()
-          gs.next_hunk()
+          gs.nav_hunk("next")
         end)
         return "<Ignore>"
       end, { expr = true })
@@ -39,7 +38,7 @@ function M.config()
           return "[c"
         end
         vim.schedule(function()
-          gs.prev_hunk()
+          gs.nav_hunk("prev")
         end)
         return "<Ignore>"
       end, { expr = true })
@@ -59,7 +58,6 @@ function M.config()
       map("n", "<leader>gD", function()
         gs.diffthis("~")
       end)
-      -- map("n", "<leader>sh", gs.stage_hunk)
 
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")

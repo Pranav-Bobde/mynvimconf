@@ -6,15 +6,26 @@ local M = {
     "hrsh7th/cmp-nvim-lsp",
     "williamboman/mason-lspconfig.nvim",
     { "antosha417/nvim-lsp-file-operations", config = true },
-    { "folke/neodev.nvim",                   opts = {} }
   }
 }
 
 function M.config()
-  local mason_lspconfig = require("mason-lspconfig")
+  local servers = {
+    "vtsls",
+    "html",
+    "cssls",
+    "tailwindcss",
+    "lua_ls",
+    "graphql",
+    "emmet_ls",
+    "yamlls",
+    "jsonls",
+    "prismals",
+    "pyright",
+  }
 
-  mason_lspconfig.setup({
-    ensure_installed = { "vtsls", "html", "cssls", "tailwindcss", "lua_ls", "graphql", "emmet_ls", "yamlls", "jsonls", "prismals", "pyright" },
+  require("mason-lspconfig").setup({
+    ensure_installed = servers,
     -- ts_ls is still installed from before the vtsls switch; keep it from
     -- auto-enabling alongside vtsls (duplicate diagnostics/completions)
     automatic_enable = { exclude = { "ts_ls" } },
@@ -49,9 +60,6 @@ function M.config()
       opts.desc = "Show LSP type definitions"
       keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
-      -- opts.desc = "See available code actions"
-      -- keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
       opts.desc = "Smart rename"
       keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
@@ -62,10 +70,10 @@ function M.config()
       keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
       opts.desc = "Go to previous diagnostic"
-      keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+      keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts) -- jump to previous diagnostic in buffer
 
       opts.desc = "Go to next diagnostic"
-      keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+      keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts) -- jump to next diagnostic in buffer
 
       opts.desc = "Show documentation for what is under cursor"
       keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
@@ -103,20 +111,7 @@ function M.config()
     update_in_insert = false,
   })
 
-  local servers = {
-    "vtsls",
-    "html",
-    "cssls",
-    "tailwindcss",
-    "lua_ls",
-    "graphql",
-    "emmet_ls",
-    "yamlls",
-    "jsonls",
-    "prismals",
-    "pyright",
-  }
-
+  -- vim.lsp.config merges, so the per-server calls below keep these capabilities.
   for _, server in ipairs(servers) do
     vim.lsp.config(server, {
       capabilities = capabilities,
@@ -124,7 +119,6 @@ function M.config()
   end
 
   vim.lsp.config("vtsls", {
-    capabilities = capabilities,
     settings = {
       vtsls = {
         autoUseWorkspaceTsdk = true,
@@ -133,17 +127,14 @@ function M.config()
   })
 
   vim.lsp.config("graphql", {
-    capabilities = capabilities,
     filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
   })
 
   vim.lsp.config("emmet_ls", {
-    capabilities = capabilities,
     filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
   })
 
   vim.lsp.config("lua_ls", {
-    capabilities = capabilities,
     settings = {
       Lua = {
         diagnostics = {

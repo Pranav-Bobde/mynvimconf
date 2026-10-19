@@ -39,7 +39,6 @@ function M.config()
   luasnip.config.setup({})
 
   cmp.setup({
-    debug = true,
     completion = { completeopt = "menu,menuone,preview,noselect" },
     snippet = {
       expand = function(args)
@@ -56,7 +55,6 @@ function M.config()
       ["<CR>"] = cmp.mapping.confirm({ select = false }),
     }),
     sources = {
-      { name = "codeium" },
       { name = "nvim_lsp" },
       { name = "luasnip" },
       { name = "buffer" },

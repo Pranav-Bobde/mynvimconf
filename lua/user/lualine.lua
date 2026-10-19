@@ -45,9 +45,9 @@ function M.config()
       c = { bg = colors.bg, fg = colors.fg },
     },
     inactive = {
-      a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = "bold" },
-      b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-      c = { bg = colors.inactive_bg, fg = colors.semilightgray },
+      a = { bg = colors.inactive_bg, gui = "bold" },
+      b = { bg = colors.inactive_bg },
+      c = { bg = colors.inactive_bg },
     },
   }
 
@@ -67,8 +67,6 @@ function M.config()
           cond = lazy_status.has_updates,
           color = { fg = "#ff9e64" },
         },
-        -- { "encoding" },
-        -- { "fileformat" },
         { "filetype" },
       },
       lualine_y = { 'os.date("%d %B %a")', 'searchcount' },
