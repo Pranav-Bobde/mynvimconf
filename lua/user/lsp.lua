@@ -134,6 +134,18 @@ function M.config()
     filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
   })
 
+  -- pyright only reads `python` from PATH; point it at the project's .venv (uv/venv projects)
+  vim.lsp.config("pyright", {
+    before_init = function(_, config)
+      local venv_python = config.root_dir and (config.root_dir .. "/.venv/bin/python")
+      if venv_python and vim.uv.fs_stat(venv_python) then
+        -- mutate in place: the client already holds a reference to this settings table
+        config.settings.python = config.settings.python or {}
+        config.settings.python.pythonPath = venv_python
+      end
+    end,
+  })
+
   vim.lsp.config("lua_ls", {
     settings = {
       Lua = {

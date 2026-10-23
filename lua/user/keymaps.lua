@@ -92,7 +92,8 @@ vim.api.nvim_create_autocmd("CursorHold", {
       if
           not vim.tbl_contains(excluded_filetypes, file_type) and not vim.tbl_contains(excluded_files, file_name)
       then
-        vim.cmd("write")
+        -- pcall: skip E13 (file created on disk after buffer opened) and similar write errors
+        pcall(vim.cmd, "silent write")
       end
     end
   end,
