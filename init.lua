@@ -1,6 +1,7 @@
 require("user.launch")
 require("user.options")
 require("user.keymaps")
+require("user.cdquit")
 spec("user.colorscheme")
 spec("user.oil")
 spec("user.tmux-nav")

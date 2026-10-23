@@ -20,6 +20,7 @@ function M.config()
       ["gs"] = "actions.change_sort",
       ["h."] = "actions.toggle_hidden",
       ["g\\"] = "actions.toggle_trash",
+      ["Q"] = { callback = function() require("user.cdquit").quit() end, desc = "Quit and cd shell here" },
     },
     use_default_keymaps = false,
     prompt_save_on_select_new_entry = false,
