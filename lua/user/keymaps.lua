@@ -86,8 +86,8 @@ vim.api.nvim_create_autocmd("CursorHold", {
     local excluded_filetypes = { "lua" }
     local excluded_files = { "scope.lua" }
 
-    -- Check if the buffer is modifiable and not a special buffer
-    if vim.bo.modified and vim.bo.buftype == "" then
+    -- Check if the buffer is modifiable, not a special buffer, and has a file name (unnamed -> E32)
+    if vim.bo.modified and vim.bo.buftype == "" and vim.api.nvim_buf_get_name(0) ~= "" then
       -- Check if the current file type or file name is excluded
       if
           not vim.tbl_contains(excluded_filetypes, file_type) and not vim.tbl_contains(excluded_files, file_name)
