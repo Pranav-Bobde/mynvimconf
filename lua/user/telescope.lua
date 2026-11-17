@@ -14,7 +14,11 @@ function M.config()
     pickers = {
       find_files = {
         hidden = true
-      }
+      },
+      -- Definitions of library code live in node_modules; the default ignore list would drop them.
+      lsp_definitions = { file_ignore_patterns = {} },
+      lsp_type_definitions = { file_ignore_patterns = {} },
+      lsp_implementations = { file_ignore_patterns = {} },
     },
     defaults = {
       -- Lua patterns: escape the dot and anchor, or ".git" also hides git-signs.lua.

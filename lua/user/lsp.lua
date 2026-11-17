@@ -126,6 +126,39 @@ function M.config()
     },
   })
 
+  -- TypeScript 7+ is the native Go compiler and ships no tsserver, so vtsls can't load it.
+  -- Projects on it get its own language server (`tsc --lsp`, via the tsgo config) instead.
+  local function native_ts_bin(root)
+    if not root then return nil end
+    local tsgo = root .. "/node_modules/.bin/tsgo"
+    if vim.fn.executable(tsgo) == 1 then return tsgo end
+    local ok, pkg = pcall(vim.fn.readfile, root .. "/node_modules/typescript/package.json")
+    if not ok then return nil end
+    local version = vim.json.decode(table.concat(pkg, "\n")).version or ""
+    if (tonumber(version:match("^(%d+)")) or 0) >= 7 then
+      return root .. "/node_modules/.bin/tsc"
+    end
+  end
+
+  local function root_if(server, want_native)
+    local root_dir = vim.lsp.config[server].root_dir
+    return function(bufnr, on_dir)
+      root_dir(bufnr, function(root)
+        if (native_ts_bin(root) ~= nil) == want_native then on_dir(root) end
+      end)
+    end
+  end
+
+  vim.lsp.config("vtsls", { root_dir = root_if("vtsls", false) })
+
+  vim.lsp.config("tsgo", {
+    capabilities = capabilities,
+    cmd = function(dispatchers, config)
+      return vim.lsp.rpc.start({ native_ts_bin(config.root_dir), "--lsp", "--stdio" }, dispatchers)
+    end,
+    root_dir = root_if("tsgo", true),
+  })
+
   vim.lsp.config("graphql", {
     filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
   })
@@ -160,6 +193,8 @@ function M.config()
   })
 
   vim.lsp.enable(servers)
+  -- not in `servers`: Mason doesn't install it, it runs from each project's node_modules
+  vim.lsp.enable("tsgo")
 end
 
 return M
